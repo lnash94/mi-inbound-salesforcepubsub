@@ -20,7 +20,7 @@
 <!-- Generated on $timestamp -->
 
 <connector>
-    <component name="pubsub" package="org.wso2.carbon.connector">
+    <component name="subscribeInbound" package="org.wso2.integration.inbound">
         <dependency component="config"/>
         <dependency component="functions"/>
         <description>WSO2 pubsub Connector Library</description>

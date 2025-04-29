@@ -2,19 +2,24 @@
 <project version="4">
   <component name="RemoteRepositoriesConfiguration">
     <remote-repository>
-      <option name="id" value="wso2-nexus" />
-      <option name="name" value="WSO2 internal Repository" />
-      <option name="url" value="https://maven.wso2.org/nexus/content/groups/wso2-public/" />
-    </remote-repository>
-    <remote-repository>
       <option name="id" value="central" />
       <option name="name" value="Central Repository" />
       <option name="url" value="https://repo.maven.apache.org/maven2" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="wso2-nexus" />
+      <option name="name" value="WSO2 internal Repository" />
+      <option name="url" value="https://maven.wso2.org/nexus/content/groups/wso2-public/" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="wso2.snapshots" />
       <option name="name" value="Apache Snapshot Repository" />
       <option name="url" value="https://maven.wso2.org/nexus/content/repositories/snapshots/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="wso2-nexus" />
+      <option name="name" value="WSO2 Nexus Repository" />
+      <option name="url" value="https://maven.wso2.org/nexus/content/groups/wso2-public/" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="central" />

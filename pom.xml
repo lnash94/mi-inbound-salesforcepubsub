@@ -17,28 +17,31 @@
  ~  under the License.
 -->
 
-<!-- Generated on $timestamp -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
-    <groupId>org.wso2.mi.connector</groupId>
-    <artifactId>org.wso2.mi.connector.pubsub</artifactId>
-    <version>1.0.0</version>
-
-    <name>WSO2 Micro Integrator - pubsub Connector</name>
-    <url>http://wso2.org</url>
-    <packaging>jar</packaging>
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>org.wso2.micro.integrator.inbound.endpoint</groupId>
+    <artifactId>pubsub-inbound-endpoint</artifactId>
+    <version>2.0.0</version>
+    <packaging>bundle</packaging>
+    <name>WSO2 Micro Integrator - PubSub Inbound Endpoint</name>
+    <url>https://wso2.com/integration</url>
+
     <properties>
-            <connector.name>pubsub</connector.name>
-            <synapse.version>4.0.0-wso2v154</synapse.version>
-            <carbon.mediation.version>4.7.175</carbon.mediation.version>
-        </properties>
+        <connector.name>pubsub</connector.name>
+        <synapse.version>4.0.0-wso2v154</synapse.version>
+        <carbon.mediation.version>4.7.175</carbon.mediation.version>
+        <protobuf.version>3.21.12</protobuf.version>
+        <grpc.version>1.70.0</grpc.version>
+        <java.version>1.8</java.version>
+    </properties>
 
     <dependencies>
+        <!-- Synapse Core Dependencies -->
         <dependency>
             <groupId>org.apache.synapse</groupId>
             <artifactId>synapse-core</artifactId>
@@ -49,86 +52,93 @@
             <artifactId>synapse-commons</artifactId>
             <version>${synapse.version}</version>
         </dependency>
+
+        <!-- Carbon Mediation Core -->
         <dependency>
             <groupId>org.wso2.carbon.mediation</groupId>
             <artifactId>org.wso2.carbon.connector.core</artifactId>
             <version>${carbon.mediation.version}</version>
         </dependency>
-        <!-- Use Protobuf 3.21.5 to match gRPC 1.70.0 -->
         <dependency>
-            <groupId>com.google.protobuf</groupId>
-            <artifactId>protobuf-java</artifactId>
-            <version>3.21.12</version>
+            <groupId>org.wso2.carbon.mediation</groupId>
+            <artifactId>org.wso2.carbon.inbound.endpoint</artifactId>
+            <version>${carbon.mediation.version}</version>
         </dependency>
 
-        <!-- gRPC dependencies (1.70.0) -->
+        <!-- Protobuf and gRPC Dependencies -->
+<!--        <dependency>-->
+<!--            <groupId>com.google.protobuf</groupId>-->
+<!--            <artifactId>protobuf-java</artifactId>-->
+<!--            <version>${protobuf.version}</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>io.grpc</groupId>
-            <artifactId>grpc-netty</artifactId>
-            <version>1.70.0</version>
+            <artifactId>grpc-netty-shaded</artifactId>
         </dependency>
-
-        <!-- Exclude protobuf-java from transitive pull-ins, so we only have 3.21.12 -->
         <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-protobuf</artifactId>
-            <version>1.70.0</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.google.protobuf</groupId>
-                    <artifactId>protobuf-java</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
-
         <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-stub</artifactId>
-            <version>1.70.0</version>
         </dependency>
-
-        <!-- Java EE API if your environment requires it -->
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-all</artifactId>
+        </dependency>
+        <!-- Java EE API -->
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
             <version>8.0.1</version>
         </dependency>
-
-        <dependency>
-            <groupId>com.thesamet.scalapb.grpcweb</groupId>
-            <artifactId>scalapb-grpcweb_sjs1_2.12</artifactId>
-            <version>0.4.1</version>
-        </dependency>
-
     </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-bom</artifactId>
+                <version>1.70.0</version>  <!-- or whatever single version you need -->
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <build>
         <plugins>
+            <!-- Compiler Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
+                <version>3.8.1</version>
                 <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                     <encoding>UTF-8</encoding>
-                    <source>1.8</source>
-                    <target>1.8</target>
                 </configuration>
             </plugin>
+
+            <!-- Assembly Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
                         <id>build-connector</id>
-                        <phase>compile</phase>
+                        <phase>package</phase>
                         <goals>
                             <goal>single</goal>
                         </goals>
                         <configuration>
                             <finalName>${connector.name}-${project.version}</finalName>
                             <appendAssemblyId>false</appendAssemblyId>
-                            <filters>
-                                <filter>src/main/assembly/filter.properties</filter>
-                            </filters>
                             <descriptors>
                                 <descriptor>src/main/assembly/assemble-connector.xml</descriptor>
                             </descriptors>
@@ -136,12 +146,46 @@
                     </execution>
                 </executions>
             </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.apache.felix</groupId>-->
+<!--                <artifactId>maven-bundle-plugin</artifactId>-->
+<!--                <version>5.1.8</version>-->
+<!--                <extensions>true</extensions>-->
+<!--                <configuration>-->
+<!--                    <instructions>-->
+<!--                        &lt;!&ndash;  keep any flags you already had  &ndash;&gt;-->
+<!--                        <_nouse.jdk.javac>true</_nouse.jdk.javac>-->
+<!--                        &lt;!&ndash;  embed every runtime-scope dependency into this bundle  &ndash;&gt;-->
+<!--                        <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>-->
+<!--                        &lt;!&ndash;  export the io.grpc namespace and merge split packages  &ndash;&gt;-->
+<!--                        <Export-Package>-->
+<!--                            io.grpc*;-split-package:=merge-first-->
+<!--                        </Export-Package>-->
+<!--                    </instructions>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>5.1.8</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <_nouse.jdk.javac>true</_nouse.jdk.javac>
+                        <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
+                        <Export-Package>io.grpc*;-split-package:=merge-first</Export-Package>
+                        <Include-Resource>{maven-resources},META-INF/services=target/classes/META-INF/services</Include-Resource>
+                        <_includeresource>META-INF/services=target/classes/META-INF/services</_includeresource>
+                    </instructions>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+
     <repositories>
         <repository>
             <id>wso2-nexus</id>
-            <name>WSO2 internal Repository</name>
+            <name>WSO2 Nexus Repository</name>
             <url>https://maven.wso2.org/nexus/content/groups/wso2-public/</url>
             <releases>
                 <enabled>true</enabled>
@@ -149,39 +193,19 @@
                 <checksumPolicy>ignore</checksumPolicy>
             </releases>
         </repository>
-        <repository>
-            <id>wso2.releases</id>
-            <name>WSO2 internal Repository</name>
-            <url>https://maven.wso2.org/nexus/content/repositories/releases/</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>daily</updatePolicy>
-                <checksumPolicy>ignore</checksumPolicy>
-            </releases>
-        </repository>
-        <repository>
-            <id>wso2.snapshots</id>
-            <name>Apache Snapshot Repository</name>
-            <url>https://maven.wso2.org/nexus/content/repositories/snapshots/</url>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>daily</updatePolicy>
-            </snapshots>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-        </repository>
     </repositories>
+
     <distributionManagement>
         <repository>
-            <id>nexus-releases</id>
-            <name>WSO2 Release Distribution Repository</name>
+            <id>wso2-releases</id>
+            <name>WSO2 Release Repository</name>
             <url>https://maven.wso2.org/nexus/service/local/staging/deploy/maven2/</url>
         </repository>
         <snapshotRepository>
-            <id>wso2.snapshots</id>
-            <name>Apache Snapshot Repository</name>
+            <id>wso2-snapshots</id>
+            <name>WSO2 Snapshot Repository</name>
             <url>https://maven.wso2.org/nexus/content/repositories/snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
+
 </project>

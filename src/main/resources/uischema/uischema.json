@@ -1,0 +1,384 @@
+{
+    "id": "org.wso2.carbon.inbound.sf.pubsub.SubscribeMediator",
+    "name": "subscribeInbound",
+    "type": "event-integration",
+    "title": "Subscribe",
+    "help": "Subscribe",
+    "elements": [
+        {
+            "type": "attributeGroup",
+            "value": {
+                "groupName": "Generic",
+                "elements": [
+                    {
+                        "type": "attribute",
+                        "value": {
+                            "name": "name",
+                            "displayName": "Event Integration Name",
+                            "inputType": "string",
+                            "required": "true",
+                            "helpTip": "Unique identifier for the Salesforce pubsub event integration."
+                        }
+                    },
+                    {
+                        "type": "attribute",
+                        "value": {
+                            "name": "class",
+                            "displayName": "Class Name",
+                            "inputType": "string",
+                            "required": "true",
+                            "hidden": true,
+                            "defaultValue": "org.wso2.carbon.inbound.sf.pubsub.SubscribeMediator"
+                        }
+                    },
+                    {
+                        "type": "attribute",
+                        "value": {
+                            "name": "generateSequences",
+                            "displayName": "Automatically generate sequences",
+                            "inputType": "checkbox",
+                            "defaultValue": true
+                        }
+                    },
+                    {
+                        "type": "attribute",
+                        "value": {
+                            "name": "sequence",
+                            "displayName": "Injecting Sequence Name",
+                            "inputType": "keyOrExpression",
+                            "keyType": "sequence",
+                            "required": "true",
+                            "enableCondition": [{"generateSequences":false}],
+                            "helpTip": "Sequence to inject the Salesforce pubsub message"
+                        }
+                    },
+                    {
+                        "type": "attribute",
+                        "value": {
+                            "name": "onError",
+                            "displayName": "Error Sequence Name",
+                            "inputType": "keyOrExpression",
+                            "keyType": "sequence",
+                            "required": "true",
+                            "enableCondition": [{"generateSequences":false}],
+                            "helpTip": "Error sequence to invoke on fault"
+                        }
+                    },
+                    {
+                        "type": "attribute",
+                        "value": {
+                            "name": "suspend",
+                            "displayName": "Suspend Inbound",
+                            "inputType": "boolean",
+                            "defaultValue": false,
+                            "hidden": true,
+                            "required": "false",
+                            "helpTip": "Suspend Inbound"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "attributeGroup",
+            "value": {
+                "groupName": "Inbound Functional",
+                "elements": [
+                    {
+                        "type": "attribute",
+                        "value": {
+                            "name": "interval",
+                            "displayName": "Polling interval",
+                            "inputType": "string",
+                            "required": true,
+                            "helpTip": "The polling interval for the Salesforce pubsub inbound endpoint in milliseconds.",
+                            "defaultValue": "100"
+                        }
+                    },
+                    {
+                        "type": "attribute",
+                        "value": {
+                            "name": "sequential",
+                            "displayName": "Execute sequentially",
+                            "inputType": "boolean",
+                            "defaultValue": true,
+                            "required": "false",
+                            "helpTip": "The behaviour when executing the given sequence."
+                        }
+                    },
+                    {
+                        "type": "attribute",
+                        "value": {
+                            "name": "coordination",
+                            "displayName": "Coordination",
+                            "inputType": "boolean",
+                            "defaultValue": true,
+                            "required": "false",
+                            "helpTip": "In a clustered setup, this will run the inbound only in a single worker node."
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "attributeGroup",
+            "value": {
+                "groupName": "Connection Configuration",
+                "elements": [
+                    {
+                        "type": "attributeGroup",
+                        "value": {
+                            "groupName": "Salesforce PubSub Basic",
+                            "elements": [
+                                {
+                                    "type": "attribute",
+                                    "value": {
+                                        "name": "server",
+                                        "displayName": "Server URL",
+                                        "inputType": "string",
+                                        "defaultValue": "api.pubsub.salesforce.com",
+                                        "required": "true",
+                                        "helpTip": "The service root URL."
+                                    }
+                                },
+                                {
+                                    "type": "attribute",
+                                    "value": {
+                                        "name": "port",
+                                        "displayName": "Port",
+                                        "inputType": "string",
+                                        "match Pattern": "^\\d+$",
+                                        "defaultValue": "7443",
+                                        "required": true,
+                                        "helpTip": "The port for the root URL."
+                                    }
+                                },
+                                {
+                                    "type": "attribute",
+                                    "value": {
+                                        "name": "isHeadersAvailable",
+                                        "displayName": "Headers Available",
+                                        "inputType": "checkbox",
+                                        "defaultValue": "",
+                                        "required": "false",
+                                        "helpTip": "Tick the checkbox to add headers to the connection."
+                                    }
+                                },
+                                {
+                                    "type": "table",
+                                    "value": {
+                                        "name": "headers",
+                                        "displayName": "Headers",
+                                        "tableKey": "propertyName",
+                                        "tableValue": "propertyValue",
+                                        "helpTip": "Add headers to the connection in JSON format.",
+                                        "enableCondition": [
+                                            {
+                                                "isHeadersAvailable": "true"
+                                            }
+                                        ],
+                                        "elements": [
+                                            {
+                                                "type": "attribute",
+                                                "value": {
+                                                    "name": "propertyName",
+                                                    "displayName": "Header Name",
+                                                    "inputType": "string",
+                                                    "defaultValue": "",
+                                                    "required": "true",
+                                                    "helpTip": "The name of the header."
+                                                }
+                                            },
+                                            {
+                                                "type": "attribute",
+                                                "value": {
+                                                    "name": "propertyValue",
+                                                    "displayName": "Header Value",
+                                                    "inputType": "string",
+                                                    "defaultValue": "",
+                                                    "required": "true",
+                                                    "helpTip": "The value of the header."
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "type": "attributeGroup",
+                        "value": {
+                            "groupName": "Authentication Details",
+                            "elements": [
+                                {
+                                    "type": "attribute",
+                                    "value": {
+                                        "name": "tlsEnabled",
+                                        "displayName": "Enable TLS",
+                                        "inputType": "checkbox",
+                                        "defaultValue": "false",
+                                        "required": "false",
+                                        "helpTip": "Enable TLS security"
+                                    }
+                                },
+                                {
+                                    "type": "attribute",
+                                    "value": {
+                                        "name": "serverCrtPath",
+                                        "displayName": "Certificate crt file path",
+                                        "inputType": "string",
+                                        "defaultValue": "",
+                                        "required": "false",
+                                        "helpTip": "Path to the TLS certificate file.",
+                                        "enableCondition": [
+                                            {
+                                                "tlsEnabled": "true"
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "type": "attribute",
+                                    "value": {
+                                        "name": "authType",
+                                        "displayName": "Authentication Type",
+                                        "inputType": "combo",
+                                        "defaultValue": "No Auth",
+                                        "required": "true",
+                                        "helpTip": "The authentication type for the connection.",
+                                        "comboValues": [
+                                            "No Auth",
+                                            "API Key",
+                                            "Basic Auth",
+                                            "Bearer Token"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "type": "attribute",
+                                    "value": {
+                                        "name": "username",
+                                        "displayName": "Username",
+                                        "inputType": "string",
+                                        "defaultValue": "",
+                                        "required": "true",
+                                        "helpTip": "The username for the connection.",
+                                        "enableCondition": [
+                                            {
+                                                "authType": "Basic Auth"
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "type": "attribute",
+                                    "value": {
+                                        "name": "password",
+                                        "displayName": "Password",
+                                        "inputType": "string",
+                                        "defaultValue": "",
+                                        "required": "true",
+                                        "helpTip": "The password for the connection.",
+                                        "enableCondition": [
+                                            {
+                                                "authType": "Basic Auth"
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "type": "attribute",
+                                    "value": {
+                                        "name": "bearerToken",
+                                        "displayName": "Bearer Token",
+                                        "inputType": "string",
+                                        "defaultValue": "",
+                                        "required": "true",
+                                        "helpTip": "The bearer token for the connection.",
+                                        "enableCondition": [
+                                            {
+                                                "authType": "Bearer Token"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "attributeGroup",
+            "value": {
+                "groupName": "Operation Configuration",
+                "elements": [
+                    {
+                        "type": "attributeGroup",
+                        "value": {
+                            "groupName": "Input Values",
+                            "elements": [
+                                {
+                                    "type": "attribute",
+                                    "value": {
+                                        "name": "topic_name",
+                                        "displayName": "topic_name",
+                                        "inputType": "string",
+                                        "defaultValue": "",
+                                        "required": "true",
+                                        "helpTip": "topic_name"
+                                    }
+                                },
+                                {
+                                    "type": "attribute",
+                                    "value": {
+                                        "name": "replay_preset",
+                                        "displayName": "replay_preset",
+                                        "inputType": "string",
+                                        "defaultValue": "",
+                                        "required": "false",
+                                        "helpTip": "replay_preset"
+                                    }
+                                },
+                                {
+                                    "type": "attribute",
+                                    "value": {
+                                        "name": "num_requested",
+                                        "displayName": "num_requested",
+                                        "inputType": "string",
+                                        "defaultValue": "",
+                                        "required": "true",
+                                        "helpTip": "num_requested"
+                                    }
+                                },
+                                {
+                                    "type": "attribute",
+                                    "value": {
+                                        "name": "replay_id",
+                                        "displayName": "replay_id",
+                                        "inputType": "string",
+                                        "defaultValue": "",
+                                        "required": "false",
+                                        "helpTip": "replay_id"
+                                    }
+                                },
+                                {
+                                    "type": "attribute",
+                                    "value": {
+                                        "name": "auth_refresh",
+                                        "displayName": "auth_refresh",
+                                        "inputType": "string",
+                                        "defaultValue": "",
+                                        "required": "false",
+                                        "helpTip": "auth_refresh"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
