@@ -7,11 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="org.wso2.mi.connector.pubsub" />
-        <module name="pubsub-inbound-endpoint" />
+        <module name="mi-inbound-salesforce-pubsub" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="org.wso2.mi.connector.pubsub" target="1.8" />
+      <module name="pubsub-inbound-endpoint" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

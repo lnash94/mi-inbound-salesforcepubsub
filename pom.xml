@@ -24,20 +24,21 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.wso2.micro.integrator.inbound.endpoint</groupId>
-    <artifactId>pubsub-inbound-endpoint</artifactId>
-    <version>2.0.0</version>
+    <groupId>org.wso2.integration.inbound</groupId>
+    <artifactId>mi-inbound-salesforce-pubsub</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <name>WSO2 Micro Integrator - PubSub Inbound Endpoint</name>
-    <url>https://wso2.com/integration</url>
+    <url>http://wso2.org</url>
 
     <properties>
-        <connector.name>pubsub</connector.name>
+        <connector.name>mi-inbound-salesforce-pubsub</connector.name>
         <synapse.version>4.0.0-wso2v154</synapse.version>
         <carbon.mediation.version>4.7.175</carbon.mediation.version>
         <protobuf.version>3.21.12</protobuf.version>
         <grpc.version>1.70.0</grpc.version>
         <java.version>1.8</java.version>
+        <avro.version>1.11.0</avro.version>
     </properties>
 
     <dependencies>
@@ -65,12 +66,6 @@
             <version>${carbon.mediation.version}</version>
         </dependency>
 
-        <!-- Protobuf and gRPC Dependencies -->
-<!--        <dependency>-->
-<!--            <groupId>com.google.protobuf</groupId>-->
-<!--            <artifactId>protobuf-java</artifactId>-->
-<!--            <version>${protobuf.version}</version>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-netty-shaded</artifactId>
@@ -96,6 +91,26 @@
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
             <version>8.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>io.perfmark</groupId>
+            <artifactId>perfmark-api</artifactId>
+            <version>0.27.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>3.21.12</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java-util</artifactId>
+            <version>3.21.12</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.avro</groupId>
+            <artifactId>avro</artifactId>
+            <version>${avro.version}</version>
         </dependency>
     </dependencies>
     <dependencyManagement>
@@ -131,39 +146,23 @@
                 <version>3.3.0</version>
                 <executions>
                     <execution>
-                        <id>build-connector</id>
+                        <id>make-assembly</id>
                         <phase>package</phase>
                         <goals>
                             <goal>single</goal>
                         </goals>
                         <configuration>
-                            <finalName>${connector.name}-${project.version}</finalName>
-                            <appendAssemblyId>false</appendAssemblyId>
+                            <filters>
+                                <filter>${basedir}/src/main/assembly/filter.properties</filter>
+                            </filters>
                             <descriptors>
-                                <descriptor>src/main/assembly/assemble-connector.xml</descriptor>
+                                <descriptor>src/main/assembly/zip-assembly.xml</descriptor>
                             </descriptors>
+                            <appendAssemblyId>false</appendAssemblyId>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-<!--            <plugin>-->
-<!--                <groupId>org.apache.felix</groupId>-->
-<!--                <artifactId>maven-bundle-plugin</artifactId>-->
-<!--                <version>5.1.8</version>-->
-<!--                <extensions>true</extensions>-->
-<!--                <configuration>-->
-<!--                    <instructions>-->
-<!--                        &lt;!&ndash;  keep any flags you already had  &ndash;&gt;-->
-<!--                        <_nouse.jdk.javac>true</_nouse.jdk.javac>-->
-<!--                        &lt;!&ndash;  embed every runtime-scope dependency into this bundle  &ndash;&gt;-->
-<!--                        <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>-->
-<!--                        &lt;!&ndash;  export the io.grpc namespace and merge split packages  &ndash;&gt;-->
-<!--                        <Export-Package>-->
-<!--                            io.grpc*;-split-package:=merge-first-->
-<!--                        </Export-Package>-->
-<!--                    </instructions>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
@@ -172,8 +171,30 @@
                 <configuration>
                     <instructions>
                         <_nouse.jdk.javac>true</_nouse.jdk.javac>
-                        <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
-                        <Export-Package>io.grpc*;-split-package:=merge-first</Export-Package>
+                        <!-- Explicitly Import Packages (critical for OSGi) -->
+                        <Import-Package>
+                            io.grpc.*,
+                            com.google.protobuf.*,
+                            org.wso2.carbon.*,
+                            org.apache.synapse.*,
+                            *
+                        </Import-Package>
+
+                        <!-- Embed all required compile/runtime dependencies -->
+                        <Embed-Dependency>
+                            protobuf-java;scope=compile|runtime,
+                            grpc-protobuf;scope=compile|runtime,
+                            grpc-stub;scope=compile|runtime,
+                            grpc-api;scope=compile|runtime,
+                            grpc-core;scope=compile|runtime,
+                            grpc-netty-shaded;scope=compile|runtime
+                        </Embed-Dependency>
+
+                        <!-- Merge split packages explicitly -->
+                        <Export-Package>
+                            !com.google.protobuf.*,
+                            io.grpc.*;-split-package:=merge-first
+                        </Export-Package>
                         <Include-Resource>{maven-resources},META-INF/services=target/classes/META-INF/services</Include-Resource>
                         <_includeresource>META-INF/services=target/classes/META-INF/services</_includeresource>
                     </instructions>

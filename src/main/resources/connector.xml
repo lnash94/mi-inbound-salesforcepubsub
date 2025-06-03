@@ -17,13 +17,8 @@
  ~  under the License.
 -->
 
-<!-- Generated on $timestamp -->
-
 <connector>
-    <component name="subscribeInbound" package="org.wso2.integration.inbound">
-        <dependency component="config"/>
-        <dependency component="functions"/>
-        <description>WSO2 pubsub Connector Library</description>
+    <component name="salesforcePubSubInbound" package="org.wso2.integration.inbound" >
+        <description>WSO2 Salesforce PubSub Inbound Endpoint</description>
     </component>
-    <icon>icon/icon-small.png</icon>
 </connector>

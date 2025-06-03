@@ -19,8 +19,8 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
  * </pre>
  */
 @javax.annotation.Generated(
-    value = "by gRPC proto compiler (version 1.70.0)",
-    comments = "Source: pubsub_api-original.proto")
+        value = "by gRPC proto compiler (version 1.70.0)",
+        comments = "Source: pubsub_api.proto")
 @io.grpc.stub.annotations.GrpcGenerated
 public final class PubSubGrpc {
 
@@ -29,8 +29,7 @@ public final class PubSubGrpc {
   public static final java.lang.String SERVICE_NAME = "eventbus.v1.PubSub";
 
   // Static method descriptors that strictly reflect the proto.
-  private static volatile io.grpc.MethodDescriptor<FetchRequest,
-          FetchResponse> getSubscribeMethod;
+  private static volatile io.grpc.MethodDescriptor<FetchRequest, FetchResponse> getSubscribeMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "Subscribe",
@@ -184,17 +183,47 @@ public final class PubSubGrpc {
     return getPublishStreamMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<ManagedFetchRequest, ManagedFetchResponse> getManagedSubscribeMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+          fullMethodName = SERVICE_NAME + '/' + "ManagedSubscribe",
+          requestType = ManagedFetchRequest.class,
+          responseType = ManagedFetchResponse.class,
+          methodType = io.grpc.MethodDescriptor.MethodType.BIDI_STREAMING)
+  public static io.grpc.MethodDescriptor<ManagedFetchRequest,
+          ManagedFetchResponse> getManagedSubscribeMethod() {
+    io.grpc.MethodDescriptor<ManagedFetchRequest, ManagedFetchResponse> getManagedSubscribeMethod;
+    if ((getManagedSubscribeMethod = PubSubGrpc.getManagedSubscribeMethod) == null) {
+      synchronized (PubSubGrpc.class) {
+        if ((getManagedSubscribeMethod = PubSubGrpc.getManagedSubscribeMethod) == null) {
+          PubSubGrpc.getManagedSubscribeMethod = getManagedSubscribeMethod =
+                  io.grpc.MethodDescriptor.<ManagedFetchRequest, ManagedFetchResponse>newBuilder()
+                          .setType(io.grpc.MethodDescriptor.MethodType.BIDI_STREAMING)
+                          .setFullMethodName(generateFullMethodName(SERVICE_NAME, "ManagedSubscribe"))
+                          .setSampledToLocalTracing(true)
+                          .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                                  ManagedFetchRequest.getDefaultInstance()))
+                          .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                                  ManagedFetchResponse.getDefaultInstance()))
+                          .setSchemaDescriptor(new PubSubMethodDescriptorSupplier("ManagedSubscribe"))
+                          .build();
+        }
+      }
+    }
+    return getManagedSubscribeMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
   public static PubSubStub newStub(io.grpc.Channel channel) {
     io.grpc.stub.AbstractStub.StubFactory<PubSubStub> factory =
-      new io.grpc.stub.AbstractStub.StubFactory<PubSubStub>() {
-        @java.lang.Override
-        public PubSubStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
-          return new PubSubStub(channel, callOptions);
-        }
-      };
+            new io.grpc.stub.AbstractStub.StubFactory<PubSubStub>() {
+              @java.lang.Override
+              public PubSubStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+                return new PubSubStub(channel, callOptions);
+              }
+            };
     return PubSubStub.newStub(factory, channel);
   }
 
@@ -202,14 +231,14 @@ public final class PubSubGrpc {
    * Creates a new blocking-style stub that supports all types of calls on the service
    */
   public static PubSubBlockingV2Stub newBlockingV2Stub(
-      io.grpc.Channel channel) {
+          io.grpc.Channel channel) {
     io.grpc.stub.AbstractStub.StubFactory<PubSubBlockingV2Stub> factory =
-      new io.grpc.stub.AbstractStub.StubFactory<PubSubBlockingV2Stub>() {
-        @java.lang.Override
-        public PubSubBlockingV2Stub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
-          return new PubSubBlockingV2Stub(channel, callOptions);
-        }
-      };
+            new io.grpc.stub.AbstractStub.StubFactory<PubSubBlockingV2Stub>() {
+              @java.lang.Override
+              public PubSubBlockingV2Stub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+                return new PubSubBlockingV2Stub(channel, callOptions);
+              }
+            };
     return PubSubBlockingV2Stub.newStub(factory, channel);
   }
 
@@ -217,14 +246,14 @@ public final class PubSubGrpc {
    * Creates a new blocking-style stub that supports unary and streaming output calls on the service
    */
   public static PubSubBlockingStub newBlockingStub(
-      io.grpc.Channel channel) {
+          io.grpc.Channel channel) {
     io.grpc.stub.AbstractStub.StubFactory<PubSubBlockingStub> factory =
-      new io.grpc.stub.AbstractStub.StubFactory<PubSubBlockingStub>() {
-        @java.lang.Override
-        public PubSubBlockingStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
-          return new PubSubBlockingStub(channel, callOptions);
-        }
-      };
+            new io.grpc.stub.AbstractStub.StubFactory<PubSubBlockingStub>() {
+              @java.lang.Override
+              public PubSubBlockingStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+                return new PubSubBlockingStub(channel, callOptions);
+              }
+            };
     return PubSubBlockingStub.newStub(factory, channel);
   }
 
@@ -232,14 +261,14 @@ public final class PubSubGrpc {
    * Creates a new ListenableFuture-style stub that supports unary calls on the service
    */
   public static PubSubFutureStub newFutureStub(
-      io.grpc.Channel channel) {
+          io.grpc.Channel channel) {
     io.grpc.stub.AbstractStub.StubFactory<PubSubFutureStub> factory =
-      new io.grpc.stub.AbstractStub.StubFactory<PubSubFutureStub>() {
-        @java.lang.Override
-        public PubSubFutureStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
-          return new PubSubFutureStub(channel, callOptions);
-        }
-      };
+            new io.grpc.stub.AbstractStub.StubFactory<PubSubFutureStub>() {
+              @java.lang.Override
+              public PubSubFutureStub newStub(io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+                return new PubSubFutureStub(channel, callOptions);
+              }
+            };
     return PubSubFutureStub.newStub(factory, channel);
   }
 
@@ -286,7 +315,7 @@ public final class PubSubGrpc {
      * </pre>
      */
     default io.grpc.stub.StreamObserver<FetchRequest> subscribe(
-        io.grpc.stub.StreamObserver<FetchResponse> responseObserver) {
+            io.grpc.stub.StreamObserver<FetchResponse> responseObserver) {
       return io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall(getSubscribeMethod(), responseObserver);
     }
 
@@ -342,8 +371,22 @@ public final class PubSubGrpc {
      * </pre>
      */
     default io.grpc.stub.StreamObserver<PublishRequest> publishStream(
-        io.grpc.stub.StreamObserver<PublishResponse> responseObserver) {
+            io.grpc.stub.StreamObserver<PublishResponse> responseObserver) {
       return io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall(getPublishStreamMethod(), responseObserver);
+    }
+
+    /**
+     * <pre>
+     * This feature is part of an open beta release and is subject to the applicable
+     * Beta Services Terms provided at Agreements and Terms
+     * (https://www.salesforce.com/company/legal/agreements/).
+     * Same as Subscribe, but for Managed Subscription clients.
+     * This feature is part of an open beta release.
+     * </pre>
+     */
+    default io.grpc.stub.StreamObserver<ManagedFetchRequest> managedSubscribe(
+            io.grpc.stub.StreamObserver<ManagedFetchResponse> responseObserver) {
+      return io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall(getManagedSubscribeMethod(), responseObserver);
     }
   }
 
@@ -365,7 +408,7 @@ public final class PubSubGrpc {
    * </pre>
    */
   public static abstract class PubSubImplBase
-      implements io.grpc.BindableService, AsyncService {
+          implements io.grpc.BindableService, AsyncService {
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return PubSubGrpc.bindService(this);
@@ -390,15 +433,15 @@ public final class PubSubGrpc {
    * </pre>
    */
   public static final class PubSubStub
-      extends io.grpc.stub.AbstractAsyncStub<PubSubStub> {
+          extends io.grpc.stub.AbstractAsyncStub<PubSubStub> {
     private PubSubStub(
-        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+            io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
     protected PubSubStub build(
-        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+            io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new PubSubStub(channel, callOptions);
     }
 
@@ -427,9 +470,9 @@ public final class PubSubGrpc {
      * </pre>
      */
     public io.grpc.stub.StreamObserver<FetchRequest> subscribe(
-        io.grpc.stub.StreamObserver<FetchResponse> responseObserver) {
+            io.grpc.stub.StreamObserver<FetchResponse> responseObserver) {
       return io.grpc.stub.ClientCalls.asyncBidiStreamingCall(
-          getChannel().newCall(getSubscribeMethod(), getCallOptions()), responseObserver);
+              getChannel().newCall(getSubscribeMethod(), getCallOptions()), responseObserver);
     }
 
     /**
@@ -440,7 +483,7 @@ public final class PubSubGrpc {
     public void getSchema(SchemaRequest request,
                           io.grpc.stub.StreamObserver<SchemaInfo> responseObserver) {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
-          getChannel().newCall(getGetSchemaMethod(), getCallOptions()), request, responseObserver);
+              getChannel().newCall(getGetSchemaMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -451,7 +494,7 @@ public final class PubSubGrpc {
     public void getTopic(TopicRequest request,
                          io.grpc.stub.StreamObserver<TopicInfo> responseObserver) {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
-          getChannel().newCall(getGetTopicMethod(), getCallOptions()), request, responseObserver);
+              getChannel().newCall(getGetTopicMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -462,7 +505,7 @@ public final class PubSubGrpc {
     public void publish(PublishRequest request,
                         io.grpc.stub.StreamObserver<PublishResponse> responseObserver) {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
-          getChannel().newCall(getPublishMethod(), getCallOptions()), request, responseObserver);
+              getChannel().newCall(getPublishMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -487,9 +530,24 @@ public final class PubSubGrpc {
      * </pre>
      */
     public io.grpc.stub.StreamObserver<PublishRequest> publishStream(
-        io.grpc.stub.StreamObserver<PublishResponse> responseObserver) {
+            io.grpc.stub.StreamObserver<PublishResponse> responseObserver) {
       return io.grpc.stub.ClientCalls.asyncBidiStreamingCall(
-          getChannel().newCall(getPublishStreamMethod(), getCallOptions()), responseObserver);
+              getChannel().newCall(getPublishStreamMethod(), getCallOptions()), responseObserver);
+    }
+
+    /**
+     * <pre>
+     * This feature is part of an open beta release and is subject to the applicable
+     * Beta Services Terms provided at Agreements and Terms
+     * (https://www.salesforce.com/company/legal/agreements/).
+     * Same as Subscribe, but for Managed Subscription clients.
+     * This feature is part of an open beta release.
+     * </pre>
+     */
+    public io.grpc.stub.StreamObserver<ManagedFetchRequest> managedSubscribe(
+            io.grpc.stub.StreamObserver<ManagedFetchResponse> responseObserver) {
+      return io.grpc.stub.ClientCalls.asyncBidiStreamingCall(
+              getChannel().newCall(getManagedSubscribeMethod(), getCallOptions()), responseObserver);
     }
   }
 
@@ -511,15 +569,15 @@ public final class PubSubGrpc {
    * </pre>
    */
   public static final class PubSubBlockingV2Stub
-      extends io.grpc.stub.AbstractBlockingStub<PubSubBlockingV2Stub> {
+          extends io.grpc.stub.AbstractBlockingStub<PubSubBlockingV2Stub> {
     private PubSubBlockingV2Stub(
-        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+            io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
     protected PubSubBlockingV2Stub build(
-        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+            io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new PubSubBlockingV2Stub(channel, callOptions);
     }
 
@@ -549,9 +607,9 @@ public final class PubSubGrpc {
      */
     @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/10918")
     public io.grpc.stub.BlockingClientCall<FetchRequest, FetchResponse>
-        subscribe() {
+    subscribe() {
       return io.grpc.stub.ClientCalls.blockingBidiStreamingCall(
-          getChannel(), getSubscribeMethod(), getCallOptions());
+              getChannel(), getSubscribeMethod(), getCallOptions());
     }
 
     /**
@@ -561,7 +619,7 @@ public final class PubSubGrpc {
      */
     public SchemaInfo getSchema(SchemaRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
-          getChannel(), getGetSchemaMethod(), getCallOptions(), request);
+              getChannel(), getGetSchemaMethod(), getCallOptions(), request);
     }
 
     /**
@@ -571,7 +629,7 @@ public final class PubSubGrpc {
      */
     public TopicInfo getTopic(TopicRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
-          getChannel(), getGetTopicMethod(), getCallOptions(), request);
+              getChannel(), getGetTopicMethod(), getCallOptions(), request);
     }
 
     /**
@@ -581,7 +639,7 @@ public final class PubSubGrpc {
      */
     public PublishResponse publish(PublishRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
-          getChannel(), getPublishMethod(), getCallOptions(), request);
+              getChannel(), getPublishMethod(), getCallOptions(), request);
     }
 
     /**
@@ -607,9 +665,25 @@ public final class PubSubGrpc {
      */
     @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/10918")
     public io.grpc.stub.BlockingClientCall<PublishRequest, PublishResponse>
-        publishStream() {
+    publishStream() {
       return io.grpc.stub.ClientCalls.blockingBidiStreamingCall(
-          getChannel(), getPublishStreamMethod(), getCallOptions());
+              getChannel(), getPublishStreamMethod(), getCallOptions());
+    }
+
+    /**
+     * <pre>
+     * This feature is part of an open beta release and is subject to the applicable
+     * Beta Services Terms provided at Agreements and Terms
+     * (https://www.salesforce.com/company/legal/agreements/).
+     * Same as Subscribe, but for Managed Subscription clients.
+     * This feature is part of an open beta release.
+     * </pre>
+     */
+    @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/10918")
+    public io.grpc.stub.BlockingClientCall<ManagedFetchRequest, ManagedFetchResponse>
+    managedSubscribe() {
+      return io.grpc.stub.ClientCalls.blockingBidiStreamingCall(
+              getChannel(), getManagedSubscribeMethod(), getCallOptions());
     }
   }
 
@@ -631,15 +705,15 @@ public final class PubSubGrpc {
    * </pre>
    */
   public static final class PubSubBlockingStub
-      extends io.grpc.stub.AbstractBlockingStub<PubSubBlockingStub> {
+          extends io.grpc.stub.AbstractBlockingStub<PubSubBlockingStub> {
     private PubSubBlockingStub(
-        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+            io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
     protected PubSubBlockingStub build(
-        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+            io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new PubSubBlockingStub(channel, callOptions);
     }
 
@@ -650,7 +724,7 @@ public final class PubSubGrpc {
      */
     public SchemaInfo getSchema(SchemaRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
-          getChannel(), getGetSchemaMethod(), getCallOptions(), request);
+              getChannel(), getGetSchemaMethod(), getCallOptions(), request);
     }
 
     /**
@@ -660,7 +734,7 @@ public final class PubSubGrpc {
      */
     public TopicInfo getTopic(TopicRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
-          getChannel(), getGetTopicMethod(), getCallOptions(), request);
+              getChannel(), getGetTopicMethod(), getCallOptions(), request);
     }
 
     /**
@@ -670,7 +744,7 @@ public final class PubSubGrpc {
      */
     public PublishResponse publish(PublishRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
-          getChannel(), getPublishMethod(), getCallOptions(), request);
+              getChannel(), getPublishMethod(), getCallOptions(), request);
     }
   }
 
@@ -692,15 +766,15 @@ public final class PubSubGrpc {
    * </pre>
    */
   public static final class PubSubFutureStub
-      extends io.grpc.stub.AbstractFutureStub<PubSubFutureStub> {
+          extends io.grpc.stub.AbstractFutureStub<PubSubFutureStub> {
     private PubSubFutureStub(
-        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+            io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       super(channel, callOptions);
     }
 
     @java.lang.Override
     protected PubSubFutureStub build(
-        io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
+            io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new PubSubFutureStub(channel, callOptions);
     }
 
@@ -710,9 +784,9 @@ public final class PubSubGrpc {
      * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<SchemaInfo> getSchema(
-        SchemaRequest request) {
+            SchemaRequest request) {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
-          getChannel().newCall(getGetSchemaMethod(), getCallOptions()), request);
+              getChannel().newCall(getGetSchemaMethod(), getCallOptions()), request);
     }
 
     /**
@@ -721,9 +795,9 @@ public final class PubSubGrpc {
      * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<TopicInfo> getTopic(
-        TopicRequest request) {
+            TopicRequest request) {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
-          getChannel().newCall(getGetTopicMethod(), getCallOptions()), request);
+              getChannel().newCall(getGetTopicMethod(), getCallOptions()), request);
     }
 
     /**
@@ -732,9 +806,9 @@ public final class PubSubGrpc {
      * </pre>
      */
     public com.google.common.util.concurrent.ListenableFuture<PublishResponse> publish(
-        PublishRequest request) {
+            PublishRequest request) {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
-          getChannel().newCall(getPublishMethod(), getCallOptions()), request);
+              getChannel().newCall(getPublishMethod(), getCallOptions()), request);
     }
   }
 
@@ -743,12 +817,13 @@ public final class PubSubGrpc {
   private static final int METHODID_PUBLISH = 2;
   private static final int METHODID_SUBSCRIBE = 3;
   private static final int METHODID_PUBLISH_STREAM = 4;
+  private static final int METHODID_MANAGED_SUBSCRIBE = 5;
 
   private static final class MethodHandlers<Req, Resp> implements
-      io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
-      io.grpc.stub.ServerCalls.ServerStreamingMethod<Req, Resp>,
-      io.grpc.stub.ServerCalls.ClientStreamingMethod<Req, Resp>,
-      io.grpc.stub.ServerCalls.BidiStreamingMethod<Req, Resp> {
+          io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
+          io.grpc.stub.ServerCalls.ServerStreamingMethod<Req, Resp>,
+          io.grpc.stub.ServerCalls.ClientStreamingMethod<Req, Resp>,
+          io.grpc.stub.ServerCalls.BidiStreamingMethod<Req, Resp> {
     private final AsyncService serviceImpl;
     private final int methodId;
 
@@ -763,15 +838,15 @@ public final class PubSubGrpc {
       switch (methodId) {
         case METHODID_GET_SCHEMA:
           serviceImpl.getSchema((SchemaRequest) request,
-              (io.grpc.stub.StreamObserver<SchemaInfo>) responseObserver);
+                  (io.grpc.stub.StreamObserver<SchemaInfo>) responseObserver);
           break;
         case METHODID_GET_TOPIC:
           serviceImpl.getTopic((TopicRequest) request,
-              (io.grpc.stub.StreamObserver<TopicInfo>) responseObserver);
+                  (io.grpc.stub.StreamObserver<TopicInfo>) responseObserver);
           break;
         case METHODID_PUBLISH:
           serviceImpl.publish((PublishRequest) request,
-              (io.grpc.stub.StreamObserver<PublishResponse>) responseObserver);
+                  (io.grpc.stub.StreamObserver<PublishResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -781,14 +856,17 @@ public final class PubSubGrpc {
     @java.lang.Override
     @java.lang.SuppressWarnings("unchecked")
     public io.grpc.stub.StreamObserver<Req> invoke(
-        io.grpc.stub.StreamObserver<Resp> responseObserver) {
+            io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
         case METHODID_SUBSCRIBE:
           return (io.grpc.stub.StreamObserver<Req>) serviceImpl.subscribe(
-              (io.grpc.stub.StreamObserver<FetchResponse>) responseObserver);
+                  (io.grpc.stub.StreamObserver<FetchResponse>) responseObserver);
         case METHODID_PUBLISH_STREAM:
           return (io.grpc.stub.StreamObserver<Req>) serviceImpl.publishStream(
-              (io.grpc.stub.StreamObserver<PublishResponse>) responseObserver);
+                  (io.grpc.stub.StreamObserver<PublishResponse>) responseObserver);
+        case METHODID_MANAGED_SUBSCRIBE:
+          return (io.grpc.stub.StreamObserver<Req>) serviceImpl.managedSubscribe(
+                  (io.grpc.stub.StreamObserver<ManagedFetchResponse>) responseObserver);
         default:
           throw new AssertionError();
       }
@@ -797,46 +875,53 @@ public final class PubSubGrpc {
 
   public static final io.grpc.ServerServiceDefinition bindService(AsyncService service) {
     return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
-        .addMethod(
-          getSubscribeMethod(),
-          io.grpc.stub.ServerCalls.asyncBidiStreamingCall(
-            new MethodHandlers<
-                    FetchRequest,
-                    FetchResponse>(
-                service, METHODID_SUBSCRIBE)))
-        .addMethod(
-          getGetSchemaMethod(),
-          io.grpc.stub.ServerCalls.asyncUnaryCall(
-            new MethodHandlers<
-                    SchemaRequest,
-                    SchemaInfo>(
-                service, METHODID_GET_SCHEMA)))
-        .addMethod(
-          getGetTopicMethod(),
-          io.grpc.stub.ServerCalls.asyncUnaryCall(
-            new MethodHandlers<
-                    TopicRequest,
-                    TopicInfo>(
-                service, METHODID_GET_TOPIC)))
-        .addMethod(
-          getPublishMethod(),
-          io.grpc.stub.ServerCalls.asyncUnaryCall(
-            new MethodHandlers<
-                    PublishRequest,
-                    PublishResponse>(
-                service, METHODID_PUBLISH)))
-        .addMethod(
-          getPublishStreamMethod(),
-          io.grpc.stub.ServerCalls.asyncBidiStreamingCall(
-            new MethodHandlers<
-                    PublishRequest,
-                    PublishResponse>(
-                service, METHODID_PUBLISH_STREAM)))
-        .build();
+            .addMethod(
+                    getSubscribeMethod(),
+                    io.grpc.stub.ServerCalls.asyncBidiStreamingCall(
+                            new MethodHandlers<
+                                    FetchRequest,
+                                    FetchResponse>(
+                                    service, METHODID_SUBSCRIBE)))
+            .addMethod(
+                    getGetSchemaMethod(),
+                    io.grpc.stub.ServerCalls.asyncUnaryCall(
+                            new MethodHandlers<
+                                    SchemaRequest,
+                                    SchemaInfo>(
+                                    service, METHODID_GET_SCHEMA)))
+            .addMethod(
+                    getGetTopicMethod(),
+                    io.grpc.stub.ServerCalls.asyncUnaryCall(
+                            new MethodHandlers<
+                                    TopicRequest,
+                                    TopicInfo>(
+                                    service, METHODID_GET_TOPIC)))
+            .addMethod(
+                    getPublishMethod(),
+                    io.grpc.stub.ServerCalls.asyncUnaryCall(
+                            new MethodHandlers<
+                                    PublishRequest,
+                                    PublishResponse>(
+                                    service, METHODID_PUBLISH)))
+            .addMethod(
+                    getPublishStreamMethod(),
+                    io.grpc.stub.ServerCalls.asyncBidiStreamingCall(
+                            new MethodHandlers<
+                                    PublishRequest,
+                                    PublishResponse>(
+                                    service, METHODID_PUBLISH_STREAM)))
+            .addMethod(
+                    getManagedSubscribeMethod(),
+                    io.grpc.stub.ServerCalls.asyncBidiStreamingCall(
+                            new MethodHandlers<
+                                    ManagedFetchRequest,
+                                    ManagedFetchResponse>(
+                                    service, METHODID_MANAGED_SUBSCRIBE)))
+            .build();
   }
 
   private static abstract class PubSubBaseDescriptorSupplier
-      implements io.grpc.protobuf.ProtoFileDescriptorSupplier, io.grpc.protobuf.ProtoServiceDescriptorSupplier {
+          implements io.grpc.protobuf.ProtoFileDescriptorSupplier, io.grpc.protobuf.ProtoServiceDescriptorSupplier {
     PubSubBaseDescriptorSupplier() {}
 
     @java.lang.Override
@@ -879,13 +964,14 @@ public final class PubSubGrpc {
         result = serviceDescriptor;
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
-              .setSchemaDescriptor(new PubSubFileDescriptorSupplier())
-              .addMethod(getSubscribeMethod())
-              .addMethod(getGetSchemaMethod())
-              .addMethod(getGetTopicMethod())
-              .addMethod(getPublishMethod())
-              .addMethod(getPublishStreamMethod())
-              .build();
+                  .setSchemaDescriptor(new PubSubFileDescriptorSupplier())
+                  .addMethod(getSubscribeMethod())
+                  .addMethod(getGetSchemaMethod())
+                  .addMethod(getGetTopicMethod())
+                  .addMethod(getPublishMethod())
+                  .addMethod(getPublishStreamMethod())
+                  .addMethod(getManagedSubscribeMethod())
+                  .build();
         }
       }
     }

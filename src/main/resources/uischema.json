@@ -1,8 +1,8 @@
 {
-    "id": "org.wso2.carbon.inbound.sf.pubsub.SubscribeMediator",
-    "name": "subscribeInbound",
+    "id": "org.wso2.carbon.inbound.sf.pubsub.SFPubSubInboundFactory",
+    "name": "salesforcePubSubInbound",
     "type": "event-integration",
-    "title": "Subscribe",
+    "title": "Salesforce PubSub Inbound Endpoint",
     "help": "Subscribe",
     "elements": [
         {
@@ -28,7 +28,7 @@
                             "inputType": "string",
                             "required": "true",
                             "hidden": true,
-                            "defaultValue": "org.wso2.carbon.inbound.sf.pubsub.SubscribeMediator"
+                            "defaultValue": "org.wso2.carbon.inbound.sf.pubsub.SFPubSubInboundFactory"
                         }
                     },
                     {
@@ -225,22 +225,6 @@
                                 {
                                     "type": "attribute",
                                     "value": {
-                                        "name": "serverCrtPath",
-                                        "displayName": "Certificate crt file path",
-                                        "inputType": "string",
-                                        "defaultValue": "",
-                                        "required": "false",
-                                        "helpTip": "Path to the TLS certificate file.",
-                                        "enableCondition": [
-                                            {
-                                                "tlsEnabled": "true"
-                                            }
-                                        ]
-                                    }
-                                },
-                                {
-                                    "type": "attribute",
-                                    "value": {
                                         "name": "authType",
                                         "displayName": "Authentication Type",
                                         "inputType": "combo",
@@ -249,9 +233,7 @@
                                         "helpTip": "The authentication type for the connection.",
                                         "comboValues": [
                                             "No Auth",
-                                            "API Key",
-                                            "Basic Auth",
-                                            "Bearer Token"
+                                            "Basic Auth"
                                         ]
                                     }
                                 },
@@ -290,15 +272,15 @@
                                 {
                                     "type": "attribute",
                                     "value": {
-                                        "name": "bearerToken",
-                                        "displayName": "Bearer Token",
+                                        "name": "securityToken",
+                                        "displayName": "Security Token",
                                         "inputType": "string",
                                         "defaultValue": "",
                                         "required": "true",
-                                        "helpTip": "The bearer token for the connection.",
+                                        "helpTip": "The security token for the connection.",
                                         "enableCondition": [
                                             {
-                                                "authType": "Bearer Token"
+                                                "authType": "Basic Auth"
                                             }
                                         ]
                                     }
@@ -315,66 +297,116 @@
                 "groupName": "Operation Configuration",
                 "elements": [
                     {
-                        "type": "attributeGroup",
+                        "type": "attribute",
                         "value": {
-                            "groupName": "Input Values",
-                            "elements": [
+                            "name": "rpcMethod",
+                            "displayName": "Select endpoint Type",
+                            "inputType": "combo",
+                            "defaultValue": "Subscribe",
+                            "required": "true",
+                            "helpTip": "The operation to perform on the Salesforce pubsub endpoint. Select 'Subscribe' to subscribe to a topic or 'Manage Subscribes' to manage existing subscriptions.",
+                            "comboValues": [
+                                "Subscribe",
+                                "Manage Subscribes"
+                            ]
+                        }
+                    },
+                    {
+                        "type": "attribute",
+                        "value": {
+                            "name": "topic_name",
+                            "displayName": "Topic Name",
+                            "inputType": "string",
+                            "defaultValue": "",
+                            "required": "true",
+                            "helpTip": "topic_name",
+                            "enableCondition": [
                                 {
-                                    "type": "attribute",
-                                    "value": {
-                                        "name": "topic_name",
-                                        "displayName": "topic_name",
-                                        "inputType": "string",
-                                        "defaultValue": "",
-                                        "required": "true",
-                                        "helpTip": "topic_name"
-                                    }
-                                },
-                                {
-                                    "type": "attribute",
-                                    "value": {
-                                        "name": "replay_preset",
-                                        "displayName": "replay_preset",
-                                        "inputType": "string",
-                                        "defaultValue": "",
-                                        "required": "false",
-                                        "helpTip": "replay_preset"
-                                    }
-                                },
-                                {
-                                    "type": "attribute",
-                                    "value": {
-                                        "name": "num_requested",
-                                        "displayName": "num_requested",
-                                        "inputType": "string",
-                                        "defaultValue": "",
-                                        "required": "true",
-                                        "helpTip": "num_requested"
-                                    }
-                                },
-                                {
-                                    "type": "attribute",
-                                    "value": {
-                                        "name": "replay_id",
-                                        "displayName": "replay_id",
-                                        "inputType": "string",
-                                        "defaultValue": "",
-                                        "required": "false",
-                                        "helpTip": "replay_id"
-                                    }
-                                },
-                                {
-                                    "type": "attribute",
-                                    "value": {
-                                        "name": "auth_refresh",
-                                        "displayName": "auth_refresh",
-                                        "inputType": "string",
-                                        "defaultValue": "",
-                                        "required": "false",
-                                        "helpTip": "auth_refresh"
-                                    }
+                                    "rpcMethod": "Subscribe"
                                 }
                             ]
+                        }
+                    },
+                    {
+                        "type": "attribute",
+                        "value": {
+                            "name": "replay_preset",
+                            "displayName": "Replay Preset",
+                            "inputType": "combo",
+                            "defaultValue": "LATEST",
+                            "required": "true",
+                            "helpTip": "replay_preset",
+                            "comboValues": [
+                                "LATEST",
+                                "EARLIEST",
+                                "CUSTOM"
+                            ],
+                            "enableCondition": [
+                                {
+                                    "rpcMethod": "Subscribe"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "type": "attribute",
+                        "value": {
+                            "name": "replay_id",
+                            "displayName": "Replay Id",
+                            "inputType": "string",
+                            "defaultValue": "",
+                            "required": "false",
+                            "helpTip": "Replay Id",
+                            "enableCondition": ["AND",
+                                {"rpcMethod": "Subscribe"},
+                                {
+                                    "replay_preset": "CUSTOM"
+                                }
+                            ]
+
+                        }
+                    },
+                    {
+                        "type":"attribute",
+                        "value":{
+                            "name": "subscription_id",
+                            "displayName": "Subscription Id",
+                            "inputType": "string",
+                            "defaultValue": "",
+                            "required": "false",
+                            "helpTip": "subscription_id",
+                            "enableCondition": [
+                                {
+                                    "rpcMethod": "Manage Subscribes"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "type":"attribute",
+                        "value":{
+                            "name": "developer_name",
+                            "displayName": "Developer Name",
+                            "inputType": "string",
+                            "defaultValue": "",
+                            "required": "false",
+                            "helpTip": "developer_name",
+                            "enableCondition": [
+                                {
+                                    "rpcMethod": "Manage Subscribes"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "type":"attribute",
+                        "value":{
+                            "name": "num_requested",
+                            "displayName": "Number of Messages Requested",
+                            "inputType": "string",
+                            "defaultValue": "",
+                            "required": "true",
+                            "helpTip": "100 is the maximum number of messages requested"
                         }
                     }
                 ]
